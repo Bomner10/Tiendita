@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Johan's Store</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #030325; /* Azul medianoche */
+        color: #f0f8ff; /* AliceBlue para contraste */
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1,
+      h3 {
+        color: #87ceeb; /* SkyBlue */
+      }
+      .input,
+      .button,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 2px solid #87ceeb; /* SkyBlue */
+        border-radius: 5px;
+        box-sizing: border-box;
+        background-color: #191970; /* Azul medianoche */
+        color: #f0f8ff; /* AliceBlue */
+      }
+      .button {
+        background-color: #4682b4; /* SteelBlue */
+        color: #f0f8ff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .button:hover {
+        background-color: #4169e1; /* RoyalBlue */
+      }
+      .container {
+        max-width: 400px;
+        width: 100%;
+        background-color: #000080; /* Navy */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .ticket-container {
+        margin-top: 20px;
+        background-color: #f0f8ff; /* AliceBlue */
+        padding: 15px;
+        border: 2px solid #87ceeb; /* SkyBlue */
+        border-radius: 5px;
+        color: #000080; /* Navy */
+      }
+      #send-whatsapp,
+      #new-purchase {
+        background-color: #4682b4; /* SteelBlue */
+        color: #f0f8ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Johan's Store</h1>
+      <h3>Añade un producto</h3>
+      <form id="product-form">
+        <div>
+          <label for="Productos"></label>
+          <select id="producto" required>
+            <option value="">Seleccionar producto</option>
+            <option value="Sabritas">Sabritas - $15.00</option>
+            <option value="Bombones">Bombones - $4.00</option>
+            <option value="Mazapan de chocolate">
+              Mazapan de chocolate - $6.00
+            </option>
+            <option value="Mazapan chico">Mazapan chico - $4.00</option>
+            <option value="Mazapan original">Mazapan original - $5.00</option>
+            <option value="BonOBon">BonOBon - $7.00</option>
+            <option value="Tamarroca">Tamarroca - $3.00</option>
+            <option value="Palanqueta">Palanqueta - $5.00</option>
+            <option value="Chiclosos de cajeta">
+              Chiclosos de cajeta - $3.00
+            </option>
+            <option value="Pepitas">Pepitas - $7.00</option>
+            <option value="Gomitas">Gomitas - $7.00</option>
+            <option value="Chicles">Chicles - $3.00</option>
+            <option value="Alegrías">Alegrías - $5.00</option>
+            <option value="Obleas">Obleas - $3.00</option>
+          </select>
+        </div>
+        <div>
+          <label for="Cantidad"></label>
+          <input
+            type="number"
+            id="cantidad"
+            class="input"
+            min="1"
+            max="100"
+            placeholder="Cantidad"
+            required
+          />
+        </div>
+        <div>
+          <input type="submit" value="Agregar al Ticket" class="button" />
+          <input type="reset" value="Borrar" class="button" />
+        </div>
+      </form>
+      <div>
+        <button id="finish" class="button">Completar compra</button>
+      </div>
+      <div
+        id="ticket-container"
+        class="ticket-container"
+        style="display: none"
+      ></div>
+      <div id="whatsapp-container" style="display: none">
+        <button id="send-whatsapp" class="button">
+          Enviar Ticket por WhatsApp
+        </button>
+      </div>
+      <div>
+        <button id="new-purchase" class="button" style="display: none">
+          Nueva Compra
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const precios = {
+        Sabritas: 15.0,
+        Bombones: 3.0,
+        Mazapan de chocolate: 6.0,
+        Mazapan chico: 4.0,
+        Mazapan original: 5.0,
+        BonOBon: 7.0,
+        Tamarroca: 3.0,
+        Palanueta: 5.0,
+        Chiclosos de cajeta: 3.0
+        Pepitas: 7.0,
+        Gomitas: 7.0,
+        Chicles: 3.0,
+        Alegrías: 5.0,
+        Obleas: 3.0
+      };
+
+      let ticket = [];
+
+      document
+        .getElementById("product-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const producto = document.getElementById("producto").value;
+          const cantidad = parseInt(document.getElementById("cantidad").value);
+          const precio = precios[producto.split(" - ")[0]];
+          const total = precio * cantidad;
+
+          ticket.push({ producto, cantidad, precio, total });
+          mostrarTicket();
+        });
+
+      function mostrarTicket() {
+        const ticketContainer = document.getElementById("ticket-container");
+        ticketContainer.innerHTML = "<h3>Ticket de Compra</h3>";
+        let totalCompra = 0;
+
+        ticket.forEach((item) => {
+          ticketContainer.innerHTML += `<p>${item.producto}: ${
+            item.cantidad
+          } x $${item.precio.toFixed(2)} = $${item.total.toFixed(2)}</p>`;
+          totalCompra += item.total;
+        });
+
+        ticketContainer.innerHTML += `<h3>Total: $${totalCompra.toFixed(
+          2
+        )}</h3>`;
+        ticketContainer.style.display = "block";
+        document.getElementById("whatsapp-container").style.display = "block";
+        document.getElementById("new-purchase").style.display = "block";
+      }
+
+      document
+        .getElementById("finish")
+        .addEventListener("click", mostrarTicket);
+
+      document
+        .getElementById("send-whatsapp")
+        .addEventListener("click", function () {
+          const numeroWhatsApp = "5548095699"; // Reemplaza con el número de WhatsApp destino
+          let mensaje = "Hola! Aquí está tu ticket de compra:%0A%0A";
+
+          ticket.forEach((item) => {
+            mensaje += `${item.producto}: ${
+              item.cantidad
+            } x $${item.precio.toFixed(2)} = $${item.total.toFixed(2)}%0A`;
+          });
+
+          const totalCompra = ticket.reduce(
+            (total, item) => total + item.total,
+            0
+          );
+          mensaje += `Total: $${totalCompra.toFixed(2)}`;
+
+          const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+          window.open(urlWhatsApp, "_blank");
+        });
+
+      document
+        .getElementById("new-purchase")
+        .addEventListener("click", function () {
+          ticket = [];
+          document.getElementById("product-form").reset();
+          document.getElementById("ticket-container").style.display = "none";
+          document.getElementById("whatsapp-container").style.display = "none";
+          document.getElementById("new-purchase").style.display = "none";
+        });
+    </script>
+  </body>
+</html>
