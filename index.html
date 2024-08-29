@@ -9,8 +9,8 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #030325; /* Azul medianoche */
-        color: #f0f8ff; /* AliceBlue para contraste */
+        background-color: #191970; /* Azul medianoche */
+        color: #fff;
         margin: 0;
         padding: 20px;
         display: flex;
@@ -19,7 +19,7 @@
       }
       h1,
       h3 {
-        color: #87ceeb; /* SkyBlue */
+        color: #87cefa; /* Azul cielo claro */
       }
       .input,
       .button,
@@ -27,41 +27,30 @@
         width: 100%;
         padding: 10px;
         margin: 10px 0;
-        border: 2px solid #87ceeb; /* SkyBlue */
+        border: 2px solid #87cefa;
         border-radius: 5px;
         box-sizing: border-box;
-        background-color: #191970; /* Azul medianoche */
-        color: #f0f8ff; /* AliceBlue */
       }
       .button {
-        background-color: #4682b4; /* SteelBlue */
-        color: #f0f8ff;
+        background-color: #87cefa;
+        color: #000;
         cursor: pointer;
         transition: background-color 0.3s ease;
       }
       .button:hover {
-        background-color: #4169e1; /* RoyalBlue */
+        background-color: #4682b4; /* Azul acero */
       }
       .container {
         max-width: 400px;
         width: 100%;
-        background-color: #000080; /* Navy */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
       .ticket-container {
         margin-top: 20px;
-        background-color: #f0f8ff; /* AliceBlue */
+        background-color: #fff;
         padding: 15px;
-        border: 2px solid #87ceeb; /* SkyBlue */
+        border: 1px solid #87cefa;
         border-radius: 5px;
-        color: #000080; /* Navy */
-      }
-      #send-whatsapp,
-      #new-purchase {
-        background-color: #4682b4; /* SteelBlue */
-        color: #f0f8ff;
+        color: #000;
       }
     </style>
   </head>
@@ -71,7 +60,7 @@
       <h3>Añade un producto</h3>
       <form id="product-form">
         <div>
-          <label for="Productos"></label>
+          <label for="producto"></label>
           <select id="producto" required>
             <option value="">Seleccionar producto</option>
             <option value="Sabritas">Sabritas - $15.00</option>
@@ -95,7 +84,7 @@
           </select>
         </div>
         <div>
-          <label for="Cantidad"></label>
+          <label for="cantidad"></label>
           <input
             type="number"
             id="cantidad"
@@ -133,7 +122,7 @@
 
     <script>
       const precios = {
-       Sabritas: 15.0,
+        Sabritas: 15.0,
         Bombones: 4.0,
         "Mazapan de chocolate": 6.0,
         "Mazapan chico": 4.0,
@@ -157,7 +146,7 @@
           event.preventDefault();
           const producto = document.getElementById("producto").value;
           const cantidad = parseInt(document.getElementById("cantidad").value);
-          const precio = precios[producto.split(" - ")[0]];
+          const precio = precios[producto];
           const total = precio * cantidad;
 
           ticket.push({ producto, cantidad, precio, total });
@@ -191,8 +180,8 @@
       document
         .getElementById("send-whatsapp")
         .addEventListener("click", function () {
-          const numeroWhatsApp = "5548095699"; // Reemplaza con el número de WhatsApp destino
-          let mensaje = "Hola! Aquí está tu ticket de compra:%0A%0A";
+          const numeroWhatsApp = "5549137839"; // Reemplaza con el número de WhatsApp destino
+          let mensaje = "Hola! Aquí está el ticket de compra:%0A%0A";
 
           ticket.forEach((item) => {
             mensaje += `${item.producto}: ${
